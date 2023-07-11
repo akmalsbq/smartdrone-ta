@@ -94,8 +94,8 @@ export default function Maindashboard() {
       </div>
       <div className={styles.gallerywrapper}>
         <div className={styles.rowwrapper}>
-          {imageList.map((url) => {
-            return <Images src={url} className={styles.Imagepreview} width={308} height={232}/>
+          {imageList.map((url, index) => {
+            return <Images key={index} src={url} className={styles.Imagepreview} width={308} height={232}/>
           })}
         </div>
       </div>
