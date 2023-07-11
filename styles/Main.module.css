@@ -1,16 +1,17 @@
 .dashboardwrapper{
     background-color: #f5f6fa;
+    background-position: fixed;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 200%;
 }
 
 .dashboard{
     background-color: #f5f6fa;
     border: 1px none;
-    height: 100%;
+    height: fit-content;
     position: relative;
     width: 100%;
 }
@@ -25,7 +26,7 @@
     height: 100%;
     left: 0;
     padding: 48px 24px 48px 60px;
-    position: absolute;
+    position: fixed;
     top: 0;
     width: fit-content;
 }
@@ -268,14 +269,15 @@
     left: 324px;
     position: absolute;
     top: 139px;
-    width: fit-content;
+    width: 85%;
 }
 
 .rowwrapper{
     align-items: flex-start;
+    flex-wrap: wrap;
     display: flex;
     gap: 24px;
-    position: relative;
+    position: absolute;
     width: fit-content;
 }
 
@@ -283,6 +285,57 @@
     border-radius: 8px;
     object-fit: cover;
     position: relative;
+}
+
+.accountwrapper{
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    left: 82%;
+    position: absolute;
+    top: 48px;
+    width: fit-content;
+    cursor: pointer;
+}
+
+.accountlabel{
+    color: #343a40bf;
+    font-family: "Poppins", Helvetica;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 16px;
+    margin-top: -1px;
+    position: relative;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+.accountinfo{
+    color: #343a40;
+    font-family: "Poppins", Helvetica;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    position: relative;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+.logowrapper{
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.telyulogo{
+    height: 1600px;
+    position: relative;
+    width: 803px;
 }
 
 

@@ -6,67 +6,19 @@ import inactiveelement from "../assets/inactiveelement.svg"
 import activegallery from "../assets/activegallery.svg"
 import logout from "../assets/logout.svg"
 import {Image as Images} from "antd"
-import firebaseApp from "../services/firebaseSDK";
-import { getDatabase, ref, child, get} from 'firebase/database'
-import { db } from "../services/firebaseSDK";
-import { collection,getDocs } from "firebase/firestore"
 import React, { useEffect, useRef, useState } from 'react';
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth} from "../services/firebaseSDK"
-import {useRouter} from 'next/router';
-import { getStorage, getDownloadURL, ref as sRef} from "firebase/storage";
+import telyu from "../assets/telu.svg"
+import { getStorage, getDownloadURL, ref as sRef, listAll} from "firebase/storage";
 import { storage } from "../services/firebaseSDK";
 
-const onChange = (e) => {
-  console.log(`checked = ${e.target.checked}`);
-};
 
 export default function Maindashboard() {
 
-          //Firebase Realtime Database
-          const [snapshot, setSnapshot]= useState(false)
-          const error = useRef(null)
-  
-          const getValue = async () =>{
-              try{
-                  const realdata = getDatabase(firebaseApp)
-                  const rootReference = ref(realdata)
-                  const dbAlt = await get(child(rootReference, 'realtime'))
-                  const dbValue = dbAlt.val()
-                  setSnapshot([dbValue]);
-                  console.log(dbValue)
-              } catch (getError){
-                  error.current = getError.message
-              }
-          }
-          
-          const data = Object.values(snapshot)
-  
-          useEffect(() => {
-             getValue() 
-          },[])
-
-
-          //Firestore
-          const [fireData, setFireData] = useState([]);
-          const getData = async () =>{
-              const databaseRef = await getDocs (collection(db, 'droneResult'))
-              .then((response) =>{
-                  setFireData(response.docs.map((data) =>{
-                      return {...data.data(), id:data.id}
-                  }))
-              })
-          }
-          useEffect(()=>{
-              getData()
-          },[])
-
-
-          //STORAGE
+          /*//STORAGE
           const [imageUrl, setImageUrl] = useState("");
 
           useEffect(() => {
-            const imageRef = sRef(storage, "imagecheck.jpg");
+            const imageRef = sRef(storage, "capture_0.jpg");
             getDownloadURL(imageRef)
               .then((url) => {
                 setImageUrl(url);
@@ -74,7 +26,33 @@ export default function Maindashboard() {
               .catch((error) => {
                 console.error(error);
               });
-          }, [])
+          }, [])*/
+
+          /*const [imageList, setImageList] = useState([]);
+          const imageListRef = sRef(storage, "images/")
+
+          useEffect(() => {
+              listAll(imageListRef).then((response) => {
+                const urls = response.items.forEach((item) => {
+                  getDownloadURL(item).then((url) => {
+                    setImageList((prev) => [...prev, url]);
+                    console.log(response)
+                  });
+                });
+              });
+          },[]);*/
+        
+          const [imageList, setImageList] = useState([]);
+          const imageListRef = sRef(storage);
+
+          useEffect(() => {
+            listAll(imageListRef).then((response) => {
+              const urls = response.items.map((item) => getDownloadURL(item));
+              Promise.all(urls).then((downloadUrls) => {
+                setImageList(downloadUrls);
+              });
+            });
+          }, []);
 
 
   return (
@@ -100,6 +78,7 @@ export default function Maindashboard() {
           </div>
         </div>
         <div className={styles.menu}>
+        <Image src={telyu} alt="telyu"/>
           <div className={styles.menulabel}> PENGATURAN AKUN </div>
           <div className={styles.list}>
             <div className={styles.inactivemenu}>
@@ -115,46 +94,13 @@ export default function Maindashboard() {
       </div>
       <div className={styles.gallerywrapper}>
         <div className={styles.rowwrapper}>
-          <Images
-            className={styles.Imagepreview}
-            src={imageUrl}
-            alt="Gambar"
-            width={308}
-            height={232}
-          />
-          <Images
-            className={styles.Imagepreview}
-            src={imageUrl}
-            alt="Gambar"
-            width={308}
-            height={232}
-          />
-          <Images
-            className={styles.Imagepreview}
-            src={imageUrl}
-            alt="Gambar"
-            width={308}
-            height={232}
-          />
-          <Images
-            className={styles.Imagepreview}
-            src={imageUrl}
-            alt="Gambar"
-            width={308}
-            height={232}
-          />
-        </div>
-        <div className={styles.rowwrapper}>
-        <Images
-            className={styles.Imagepreview}
-            src={imageUrl}
-            alt="Gambar"
-            width={308}
-            height={232}
-          />
+          {imageList.map((url) => {
+            return <Images src={url} className={styles.Imagepreview} width={308} height={232}/>
+          })}
         </div>
       </div>
     </div>
    </div>
   )
 }
+

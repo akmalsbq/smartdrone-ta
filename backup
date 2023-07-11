@@ -1,0 +1,4 @@
+<div className={styles.accountwrapper}>
+        <div className={styles.accountlabel}> Anda masuk sebagai </div>
+        <div className={styles.accountinfo}> {currentUser.email}</div>
+      </div>
