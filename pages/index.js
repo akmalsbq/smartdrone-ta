@@ -8,20 +8,25 @@ import { auth } from "../services/firebaseSDK"
 import {useRouter} from 'next/router';
 import { useState } from "react";
 
+
 const onChange = (e) => {
   console.log(`checked = ${e.target.checked}`);
 };
 
-export default function Home() {
+export default function Home({Component, pageProps}) {
+
+
+
 
   //FIREBASE AUTH
 
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
+  const [loginEmail, setLoginEmail] = useState(null);
+  const [loginPassword, setLoginPassword] = useState(null);
   const [error, setError] = useState(null);
   const router = useRouter();
 
- const login = async () =>{
+
+ const login = async (event) =>{
     try{
       const user = await signInWithEmailAndPassword(
         auth,
@@ -35,6 +40,11 @@ export default function Home() {
       console.log(error.message);
     }
   } 
+  const handleKeyDown = (event) =>{
+    if (event.key == "Enter"){
+      login(event);
+    }
+  }
 
 
   return (
@@ -73,7 +83,6 @@ export default function Home() {
                   >
                   </Input.Password>
                 </Form.Item>
-                <Checkbox className={styles.labelform} onChange={onChange}>Remember me</Checkbox>
               </div>
             </div>
           </Form>
