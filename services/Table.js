@@ -7,13 +7,18 @@ export const columns = [
       key: 1,
     },
     {
+      title: 'Waktu penerbangan',
+      dataIndex: 'time',
+      key: 2,
+    },
+    {
       title: 'Durasi terbang',
       dataIndex: 'durasi',
-      key: 2,
+      key: 3,
     },
     {
       title: 'Burung terdeteksi',
       dataIndex: 'burung',
-      key: 3,
+      key: 4,
     },
   ];
