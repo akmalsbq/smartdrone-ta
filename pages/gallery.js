@@ -43,7 +43,7 @@ export default function Maindashboard() {
           },[]);*/
         
           const [imageList, setImageList] = useState([]);
-          const imageListRef = sRef(storage);
+          const imageListRef = sRef(storage,"images/");
 
           useEffect(() => {
             listAll(imageListRef).then((response) => {
